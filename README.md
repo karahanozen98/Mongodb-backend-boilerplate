@@ -1,4 +1,4 @@
-# Mongodb-backend-boilerplaye
+# Mongodb-backend-boilerplate
 A MongoDB backend boilerplate with authentication created with Node + Express.js<br>
 This boilerplate includes user routes with Rest Api and authenctication tokens.<br>
 
