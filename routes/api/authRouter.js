@@ -9,7 +9,7 @@ router.get("/", verify, (req, res) => {
   User.findById(id)
     .then((user) => {
       // dont send password
-      user.password=undefined;
+      user.password = undefined;
       res.json(user);
     })
     .catch((err) => {

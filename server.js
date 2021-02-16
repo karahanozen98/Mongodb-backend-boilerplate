@@ -4,24 +4,18 @@ import cors from "cors";
 import "dotenv/config.js";
 
 const PORT = process.env.PORT;
-
 const app = express();
-app.use(json());
 
-app.use(
-  cors({
-    // give this an ip address with port to make it secure
-    origin: true,
-  })
-);
+app.use(cors());
+app.use(express.json());
 
 //mongoDb connection
 mongoose
   .connect(process.env.ATLAS_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify:false,
-    useCreateIndex: true
+    useFindAndModify: false,
+    useCreateIndex: true,
   })
   .then(() => {
     app.listen(PORT, (err) => {
@@ -37,5 +31,5 @@ mongoose
 // import routers
 import authRouter from "./routes/api/authRouter.js";
 import usersRouter from "./routes/api/userRouter.js";
-app.use("/api/auth",authRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);

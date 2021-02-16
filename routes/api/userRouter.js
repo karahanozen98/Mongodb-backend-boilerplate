@@ -17,7 +17,7 @@ router.route("/login").post((req, res) => {
   User.findOne({ email })
     .then((user) => {
       bcrypt.compare(password, user.password).then((isValid) => {
-        if (!isValid) res.status(400).json("Password is incorrect!");
+        if (!isValid) res.status(401).json("Password is incorrect!");
         else {
           // create a token for authentication and send response
           const token = jsonWebToken.sign(
@@ -54,6 +54,7 @@ router.route("/add").post((req, res) => {
 router.route("/update").put((req, res) => {
   const { id, email, password, displayName, photoUrl } = req.body;
   const newUser = new User({ email, password, displayName, photoUrl });
+  console.log(newUser);
   User.findById(id)
     .update(...newUser)
     .then(() => {
