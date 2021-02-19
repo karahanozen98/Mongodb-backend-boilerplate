@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static("uploads"))
 
 //mongoDb connection
 mongoose
@@ -29,7 +30,9 @@ mongoose
 
 // API ROUTERS
 // import routers
-import authRouter from "./routes/api/authRouter.js";
-import usersRouter from "./routes/api/userRouter.js";
+import authRouter from "./api/routes/authRouter.js";
+import usersRouter from "./api/routes/userRouter.js";
+import postRouter from "./api/routes/postRouter.js";
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/posts", postRouter);
