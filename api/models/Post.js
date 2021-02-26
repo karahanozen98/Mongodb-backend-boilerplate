@@ -17,7 +17,7 @@ const postSchema = new Schema(
       max: 10000,
     },
     views: {
-      type: Array,
+      type: Number,
     },
     tags: {
       type: Array,

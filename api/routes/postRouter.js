@@ -21,17 +21,17 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5,
+    fileSize: 1024 * 1024 * 10,
   },
   fileFilter: fileFilter,
 });
 
 const router = Router();
 
-router.route("/").get(async (req, res) => {
+router.route("/trending").get(async (req, res) => {
   try {
     let result = [];
-    const allPosts = await Post.find();
+    const allPosts = await Post.find().limit(6);
     for (let i = 0; i < allPosts.length; i++) {
       const post = allPosts[i];
       const author = await User.findById(post.authorID).select(
@@ -47,9 +47,22 @@ router.route("/").get(async (req, res) => {
   }
 });
 
+router.route("/:id").get(async (req, res) => {
+  const id = req.params.id;
+  try {
+    const post = await Post.findById(id);
+    post.views++;
+    await Post.findByIdAndUpdate(id, { views: post.views });
+    if (post) res.json(post);
+    else res.status(400).json("Post not found");
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 router.post("/add", upload.single("postImage"), (req, res) => {
   try {
-    const newPost = new Post({ ...req.body, imageUrl: req.file.path });
+    const newPost = new Post({ ...req.body, imageUrl: req.file.path, views: 0 });
     newPost
       .save()
       .then(() => {
